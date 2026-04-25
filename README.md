@@ -156,9 +156,9 @@ This project promotes sustainable water resource planning by helping users analy
 
 ## Author
 
-Shrushti Benke
-Yajat Naik
-Meet Chaurasiya
-Aaron Dsouza
+Shrushti Benke |
+Yajat Naik |
+Meet Chaurasiya |
+Aaron Dsouza 
 
 Computer Engineering Students
