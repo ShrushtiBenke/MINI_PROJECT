@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Water Deficit Calculator</title>
+
+  <link rel="stylesheet" href="calculation.css" />
+</head>
+
+<body>
+
+  <section class="calculator-page">
+
+    <div class="top-bar">
+
+      <h1>Water Deficit Trade-off Calculator</h1>
+
+      <a href="front.html" class="back-btn">
+        ← Home
+      </a>
+
+    </div>
+
+    <div class="main-container">
+
+      <!-- LEFT PANEL -->
+
+      <div class="input-panel">
+
+        <div class="card">
+
+          <h2>Water Deficit Target</h2>
+
+          <label for="targetInput">
+            Enter Water Deficit (m³/day)
+          </label>
+
+          <input
+            type="number"
+            id="targetInput"
+            value="1000"
+            min="100"
+          />
+
+        </div>
+
+        <!-- DESALINATION -->
+
+        <div class="card">
+
+          <div class="slider-header">
+            <h2>Desalination</h2>
+            <span id="desalPercent">34%</span>
+          </div>
+
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value="34"
+            id="desalSlider"
+          />
+
+          <p class="value-text">
+            Water Contribution:
+            <span id="desalValue">340</span> m³/day
+          </p>
+
+        </div>
+
+        <!-- DEMAND REDUCTION -->
+
+        <div class="card">
+
+          <div class="slider-header">
+            <h2>Demand Reduction</h2>
+            <span id="demandPercent">33%</span>
+          </div>
+
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value="33"
+            id="demandSlider"
+          />
+
+          <p class="value-text">
+            Water Contribution:
+            <span id="demandValue">330</span> m³/day
+          </p>
+
+        </div>
+
+        <!-- RECYCLING -->
+
+        <div class="card">
+
+          <div class="slider-header">
+            <h2>Water Recycling</h2>
+            <span id="recyclePercent">33%</span>
+          </div>
+
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value="33"
+            id="recycleSlider"
+          />
+
+          <p class="value-text">
+            Water Contribution:
+            <span id="recycleValue">330</span> m³/day
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- RIGHT PANEL -->
+
+      <div class="results-panel">
+
+        <div class="result-card">
+
+          <h3>Total Energy Usage</h3>
+
+          <p id="energyResult">
+            0 kWh/day
+          </p>
+
+        </div>
+
+        <div class="result-card">
+
+          <h3>Total Carbon Footprint</h3>
+
+          <p id="carbonResult">
+            0 kgCO₂/day
+          </p>
+
+        </div>
+
+        <div class="result-card">
+
+          <h3>Total Financial Cost</h3>
+
+          <p id="costResult">
+            ₹0/day
+          </p>
+
+        </div>
+
+        <div class="result-card feasibility-card">
+
+          <h3>Feasibility Status</h3>
+
+          <p id="feasibilityResult">
+            Checking...
+          </p>
+
+        </div>
+
+        <div class="navigation-buttons">
+
+          <a href="chart.html" class="nav-btn">
+            View Charts
+          </a>
+
+          <a href="recommendation.html" class="nav-btn">
+            Recommendations
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <script src="calculation.js"></script>
+
+</body>
+</html>
