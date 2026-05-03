@@ -2,18 +2,21 @@ const savedData = JSON.parse(
   localStorage.getItem("waterData")
 );
 
+// =========================
+// CHECK DATA
+// =========================
+
 if (!savedData) {
 
-  alert(
-    "No calculator data found."
-  );
+  alert("No calculator data found.");
 
   window.location.href =
     "calculation.html";
+
 }
 
 // =========================
-// DISPLAY SUMMARY
+// DISPLAY CURRENT VALUES
 // =========================
 
 document.getElementById(
@@ -46,33 +49,171 @@ const totalPercent =
 
   savedData.recyclePercent;
 
-const feasibilityText =
+const feasibilityValue =
   document.getElementById(
     "feasibilityValue"
   );
 
 if (totalPercent === 100) {
 
-  feasibilityText.textContent =
+  feasibilityValue.textContent =
     "✅ Feasible";
 
-  feasibilityText.style.color =
+  feasibilityValue.style.color =
     "#2e8b57";
 
 }
 
 else {
 
-  feasibilityText.textContent =
+  feasibilityValue.textContent =
     "❌ Not Feasible";
 
-  feasibilityText.style.color =
+  feasibilityValue.style.color =
     "#d9534f";
 
 }
 
 // =========================
-// RECOMMENDATION LOGIC
+// BEST MIX ALGORITHM
+// =========================
+
+// Lower desalination
+// Higher demand reduction
+// Balanced recycling
+
+let bestDesal = 15;
+let bestDemand = 55;
+let bestRecycle = 30;
+
+// Large target needs more desalination
+
+if (savedData.target > 5000) {
+
+  bestDesal = 25;
+  bestDemand = 45;
+  bestRecycle = 30;
+
+}
+
+// Extremely high carbon
+
+if (savedData.totalCarbon > 10000) {
+
+  bestDesal = 10;
+  bestDemand = 60;
+  bestRecycle = 30;
+
+}
+
+// Extremely high cost
+
+if (savedData.totalCost > 300000) {
+
+  bestDesal = 5;
+  bestDemand = 65;
+  bestRecycle = 30;
+
+}
+
+// =========================
+// DISPLAY BEST MIX
+// =========================
+
+document.getElementById(
+  "bestDesal"
+).textContent =
+
+  `${bestDesal}%`;
+
+document.getElementById(
+  "bestDemand"
+).textContent =
+
+  `${bestDemand}%`;
+
+document.getElementById(
+  "bestRecycle"
+).textContent =
+
+  `${bestRecycle}%`;
+
+// =========================
+// SUSTAINABILITY SCORE
+// =========================
+
+let score = 100;
+
+// Carbon penalty
+
+if (savedData.totalCarbon > 10000) {
+
+  score -= 30;
+
+}
+
+else if (
+  savedData.totalCarbon > 5000
+) {
+
+  score -= 15;
+
+}
+
+// Cost penalty
+
+if (savedData.totalCost > 300000) {
+
+  score -= 30;
+
+}
+
+else if (
+  savedData.totalCost > 150000
+) {
+
+  score -= 15;
+
+}
+
+// Desalination penalty
+
+if (
+  savedData.desalPercent > 50
+) {
+
+  score -= 20;
+
+}
+
+// Feasibility penalty
+
+if (totalPercent !== 100) {
+
+  score -= 25;
+
+}
+
+// Minimum limit
+
+if (score < 0) {
+
+  score = 0;
+
+}
+
+// =========================
+// DISPLAY SCORE
+// =========================
+
+document.getElementById(
+  "sustainabilityScore"
+).textContent =
+
+  `${score}/100`;
+
+// =========================
+// RECOMMENDATION MESSAGE
 // =========================
 
 const recommendationBox =
@@ -90,15 +231,17 @@ if (
 
   recommendation +=
 
-    `
-    Your current mix relies heavily on desalination.
-    While desalination provides large water output,
-    it significantly increases energy consumption,
-    financial cost, and carbon emissions.
+  `
+  Your current solution depends heavily on desalination.
 
-    Consider increasing water recycling or demand reduction
-    for a more sustainable solution.
-    `;
+  Desalination increases energy usage, financial cost,
+  and carbon emissions significantly.
+
+  Consider shifting more percentage toward
+  demand reduction and recycling.
+  
+  `;
+
 }
 
 // HIGH CARBON
@@ -109,28 +252,32 @@ if (
 
   recommendation +=
 
-    `
-    
-    The current carbon footprint is very high.
-    Reducing desalination and increasing lower-carbon
-    solutions may improve environmental sustainability.
-    `;
+  `
+  The carbon footprint is currently high.
+
+  Lower-carbon solutions such as demand reduction
+  should be prioritized for sustainability.
+  
+  `;
+
 }
 
 // HIGH COST
 
 if (
-  savedData.totalCost > 100000
+  savedData.totalCost > 150000
 ) {
 
   recommendation +=
 
-    `
-    
-    The selected mix has a high financial cost.
-    Demand reduction strategies are usually cheaper
-    and can reduce overall expenses.
-    `;
+  `
+  The current financial cost is high.
+
+  Increasing conservation strategies can help
+  reduce operational expenses.
+  
+  `;
+
 }
 
 // LOW DEMAND REDUCTION
@@ -141,65 +288,38 @@ if (
 
   recommendation +=
 
-    `
-    
-    Demand reduction is currently underutilized.
-    Increasing conservation measures may lower
-    both cost and environmental impact.
-    `;
+  `
+  Demand reduction is underutilized.
+
+  Increasing water-saving measures may significantly
+  improve sustainability performance.
+  
+  `;
+
 }
 
-// DEFAULT
+// GOOD MIX
 
-if (
-  recommendation === ""
-) {
+if (recommendation === "") {
 
   recommendation =
 
-    `
-    This is a balanced and sustainable mix.
+  `
+  Excellent balance.
 
-    The selected combination maintains a good balance
-    between cost, carbon emissions, and energy usage.
+  Your current mix maintains a strong balance
+  between sustainability, affordability,
+  and operational feasibility.
 
-    Continue optimizing based on regional priorities
-    and infrastructure limitations.
-    `;
+  Continue optimizing based on regional
+  infrastructure and environmental priorities.
+  `;
+
 }
 
-// DISPLAY
+// =========================
+// FINAL OUTPUT
+// =========================
 
 recommendationBox.textContent =
   recommendation;
-
-let recommendedDesal = 20;
-let recommendedDemand = 50;
-let recommendedRecycle = 30;
-
-if (savedData.target >= 5000) {
-  recommendedDesal = 30;
-  recommendedDemand = 40;
-  recommendedRecycle = 30;
-}
-
-if (savedData.totalCarbon > 5000) {
-  recommendedDesal = 15;
-  recommendedDemand = 55;
-  recommendedRecycle = 30;
-}
-
-if (savedData.totalCost > 100000) {
-  recommendedDesal = 10;
-  recommendedDemand = 60;
-  recommendedRecycle = 30;
-}
-
-document.getElementById("recommendedDesal").textContent =
-  `${recommendedDesal}%`;
-
-document.getElementById("recommendedDemand").textContent =
-  `${recommendedDemand}%`;
-
-document.getElementById("recommendedRecycle").textContent =
-  `${recommendedRecycle}%`;

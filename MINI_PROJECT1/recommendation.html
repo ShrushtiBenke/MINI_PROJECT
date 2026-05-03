@@ -3,9 +3,9 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Recommendations</title>
+  <title>Smart Recommendations</title>
 
   <link rel="stylesheet" href="recommendation.css" />
 </head>
@@ -15,83 +15,68 @@
   <section class="recommendation-page">
 
     <div class="top-bar">
-
-      <h1>Smart Recommendations</h1>
+      <h1>Smart Recommendation System</h1>
 
       <div class="nav-links">
         <a href="calculation.html">← Calculator</a>
         <a href="chart.html">Charts →</a>
       </div>
-
     </div>
 
     <div class="main-container">
 
-      <!-- LEFT SIDE -->
-
       <div class="recommendation-card">
 
-        <h2>System Recommendation</h2>
+        <h2>Recommended Best Mix</h2>
+
+        <p class="section-subtitle">
+          This mix is suggested by comparing cost, carbon emissions, and energy usage.
+        </p>
+
+        <div class="score-box">
+          <h3>Sustainability Score</h3>
+          <p id="sustainabilityScore">0/100</p>
+        </div>
+
+        <div class="mix-grid">
+
+          <div class="mix-item">
+            <h3>Desalination</h3>
+            <p id="bestDesal">0%</p>
+          </div>
+
+          <div class="mix-item">
+            <h3>Demand Reduction</h3>
+            <p id="bestDemand">0%</p>
+          </div>
+
+          <div class="mix-item">
+            <h3>Water Recycling</h3>
+            <p id="bestRecycle">0%</p>
+          </div>
+
+        </div>
 
         <div id="recommendationBox" class="recommendation-box">
           Loading recommendation...
         </div>
 
-        <div class="recommended-mix">
-            <h3>Recommended Mix</h3>
-
-            <p>
-                Desalination:
-                <span id="recommendedDesal">0%</span>
-            </p>
-
-            <p>
-                Demand Reduction:
-                <span id="recommendedDemand">0%</span>
-            </p>
-
-            <p>
-                Water Recycling:
-                <span id="recommendedRecycle">0%</span>
-            </p>
-        </div>
-
-        <div class="tips-section">
-
-          <h3>Optimization Tips</h3>
-
-          <div class="tip">
-            Reduce high-cost solutions to improve affordability.
-          </div>
-
-          <div class="tip">
-            Lower carbon-heavy options for sustainability.
-          </div>
-
-          <div class="tip">
-            Use balanced combinations for long-term feasibility.
-          </div>
-
-        </div>
-
       </div>
-
-      <!-- RIGHT SIDE -->
 
       <div class="summary-panel">
 
         <div class="summary-card">
-          <h3>Total Energy</h3>
+          <h3>Your Current Energy</h3>
           <p id="energyValue">0</p>
         </div>
 
         <div class="summary-card">
-          <h3>Total Carbon</h3>
+          <h3>Your Current Carbon</h3>
           <p id="carbonValue">0</p>
         </div>
 
         <div class="summary-card">
-          <h3>Total Cost</h3>
+          <h3>Your Current Cost</h3>
           <p id="costValue">0</p>
         </div>
 
