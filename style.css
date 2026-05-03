@@ -231,21 +231,3 @@ h1 span {
     margin-top: 30px;
   }
 }
-
-/* PAGE TRANSITION EFFECT */
-
-body {
-    opacity: 0;
-    transform: scale(0.96);
-    transition: all 0.4s ease;
-}
-
-body.show-page {
-    opacity: 1;
-    transform: scale(1);
-}
-
-body.hide-page {
-    opacity: 0;
-    transform: scale(1.05);
-}
