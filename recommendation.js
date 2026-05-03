@@ -232,12 +232,12 @@ if (
   recommendation +=
 
   `
-  Your current solution depends heavily on desalination.
+  • Your current solution depends heavily on desalination.
 
-  Desalination increases energy usage, financial cost,
+  • Desalination increases energy usage, financial cost,
   and carbon emissions significantly.
 
-  Consider shifting more percentage toward
+  • Consider shifting more percentage toward
   demand reduction and recycling.
   
   `;
@@ -247,15 +247,15 @@ if (
 // HIGH CARBON
 
 if (
-  savedData.totalCarbon > 5000
+  savedData.totalCarbon > 4000
 ) {
 
   recommendation +=
 
   `
-  The carbon footprint is currently high.
+  • The carbon footprint is currently high.
 
-  Lower-carbon solutions such as demand reduction
+  • Lower-carbon solutions such as demand reduction
   should be prioritized for sustainability.
   
   `;
@@ -265,15 +265,15 @@ if (
 // HIGH COST
 
 if (
-  savedData.totalCost > 150000
+  savedData.totalCost > 100000
 ) {
 
   recommendation +=
 
   `
-  The current financial cost is high.
+  • The current financial cost is high.
 
-  Increasing conservation strategies can help
+  • Increasing conservation strategies can help
   reduce operational expenses.
   
   `;
@@ -289,9 +289,9 @@ if (
   recommendation +=
 
   `
-  Demand reduction is underutilized.
+  • Demand reduction is underutilized.
 
-  Increasing water-saving measures may significantly
+  • Increasing water-saving measures may significantly
   improve sustainability performance.
   
   `;
@@ -305,13 +305,13 @@ if (recommendation === "") {
   recommendation =
 
   `
-  Excellent balance.
+  • Excellent balance.
 
-  Your current mix maintains a strong balance
+  • Your current mix maintains a strong balance
   between sustainability, affordability,
   and operational feasibility.
 
-  Continue optimizing based on regional
+  • Continue optimizing based on regional
   infrastructure and environmental priorities.
   `;
 
