@@ -162,14 +162,14 @@ else if (
 
 // Cost penalty
 
-if (savedData.totalCost > 300000) {
+if (savedData.totalCost > 200000) {
 
   score -= 30;
 
 }
 
 else if (
-  savedData.totalCost > 150000
+  savedData.totalCost > 100000
 ) {
 
   score -= 15;
