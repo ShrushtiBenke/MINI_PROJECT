@@ -1,368 +1,206 @@
-// =========================
-// GLOBAL VARIABLES
-// =========================
-
 let dataset = [];
-
-// =========================
-// FETCH JSON DATA
-// =========================
+let waterChart;
 
 fetch("water_options.json")
   .then(response => response.json())
   .then(data => {
-
     dataset = data;
-
     loadSavedCalculatorValues();
+    createChart();
     updateCalculations();
-
   })
-
   .catch(error => {
     console.error("Error loading JSON:", error);
   });
 
-// =========================
-// ELEMENTS
-// =========================
+const targetInput = document.getElementById("targetInput");
 
-const targetInput =
-  document.getElementById("targetInput");
+const desalSlider = document.getElementById("desalSlider");
+const demandSlider = document.getElementById("demandSlider");
+const recycleSlider = document.getElementById("recycleSlider");
 
-const desalSlider =
-  document.getElementById("desalSlider");
+const desalPercent = document.getElementById("desalPercent");
+const demandPercent = document.getElementById("demandPercent");
+const recyclePercent = document.getElementById("recyclePercent");
 
-const demandSlider =
-  document.getElementById("demandSlider");
+const desalValue = document.getElementById("desalValue");
+const demandValue = document.getElementById("demandValue");
+const recycleValue = document.getElementById("recycleValue");
 
-const recycleSlider =
-  document.getElementById("recycleSlider");
+const energyResult = document.getElementById("energyResult");
+const carbonResult = document.getElementById("carbonResult");
+const costResult = document.getElementById("costResult");
+const feasibilityResult = document.getElementById("feasibilityResult");
 
-const desalPercent =
-  document.getElementById("desalPercent");
+function createChart() {
+  const ctx = document.getElementById("waterChart");
 
-const demandPercent =
-  document.getElementById("demandPercent");
+  waterChart = new Chart(ctx, {
+    type: "bar",
 
-const recyclePercent =
-  document.getElementById("recyclePercent");
+    data: {
+      labels: ["Water Deficit Mix"],
 
-const desalValue =
-  document.getElementById("desalValue");
+      datasets: [
+        {
+          label: "Desalination",
+          data: [0],
+          backgroundColor: "#7ed8c8"
+        },
+        {
+          label: "Demand Reduction",
+          data: [0],
+          backgroundColor: "#8db6ff"
+        },
+        {
+          label: "Water Recycling",
+          data: [0],
+          backgroundColor: "#c9b8ff"
+        }
+      ]
+    },
 
-const demandValue =
-  document.getElementById("demandValue");
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
 
-const recycleValue =
-  document.getElementById("recycleValue");
+      plugins: {
+        legend: {
+          position: "bottom"
+        },
 
-const energyResult =
-  document.getElementById("energyResult");
+        title: {
+          display: true,
+          text: "Contribution of Each Option to Water Deficit Target"
+        }
+      },
 
-const carbonResult =
-  document.getElementById("carbonResult");
+      scales: {
+        x: {
+          stacked: true
+        },
 
-const costResult =
-  document.getElementById("costResult");
-
-const feasibilityResult =
-  document.getElementById("feasibilityResult");
-
-// =========================
-// FIND CLOSEST CAPACITY
-// =========================
+        y: {
+          stacked: true,
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: "Water Contribution (m³/day)"
+          }
+        }
+      }
+    }
+  });
+}
 
 function getClosestDataset(target) {
-
   let closest = dataset[0];
 
   dataset.forEach(item => {
-
     if (
-
       Math.abs(item.capacity_m3_day - target)
-
       <
-
       Math.abs(closest.capacity_m3_day - target)
-
     ) {
-
       closest = item;
-
     }
-
   });
 
   return closest;
-
 }
 
-// =========================
-// MAIN FUNCTION
-// =========================
-
 function updateCalculations() {
-
   if (dataset.length === 0) return;
 
-  // =========================
-  // TARGET VALUE
-  // =========================
+  const target = Number(targetInput.value);
 
-  const target =
-    Number(targetInput.value);
+  const selectedData = getClosestDataset(target);
 
-  // =========================
-  // GET DATASET
-  // =========================
-
-  const selectedData =
-    getClosestDataset(target);
-
-  // =========================
-  // SLIDER VALUES
-  // =========================
-
-  const desalPercentValue =
-    Number(desalSlider.value);
-
-  const demandPercentValue =
-    Number(demandSlider.value);
-
-  const recyclePercentValue =
-    Number(recycleSlider.value);
-
-  // =========================
-  // TOTAL %
-  // =========================
+  const desalPercentValue = Number(desalSlider.value);
+  const demandPercentValue = Number(demandSlider.value);
+  const recyclePercentValue = Number(recycleSlider.value);
 
   const totalPercent =
-
     desalPercentValue +
-
     demandPercentValue +
-
     recyclePercentValue;
 
-  // =========================
-  // UPDATE %
-  // =========================
+  desalPercent.textContent = `${desalPercentValue}%`;
+  demandPercent.textContent = `${demandPercentValue}%`;
+  recyclePercent.textContent = `${recyclePercentValue}%`;
 
-  desalPercent.textContent =
-    `${desalPercentValue}%`;
+  const desalWater = (desalPercentValue / 100) * target;
+  const demandWater = (demandPercentValue / 100) * target;
+  const recycleWater = (recyclePercentValue / 100) * target;
 
-  demandPercent.textContent =
-    `${demandPercentValue}%`;
-
-  recyclePercent.textContent =
-    `${recyclePercentValue}%`;
-
-  // =========================
-  // WATER VALUES
-  // =========================
-
-  const desalWater =
-
-    (desalPercentValue / 100)
-
-    * target;
-
-  const demandWater =
-
-    (demandPercentValue / 100)
-
-    * target;
-
-  const recycleWater =
-
-    (recyclePercentValue / 100)
-
-    * target;
-
-  // =========================
-  // DISPLAY WATER
-  // =========================
-
-  desalValue.textContent =
-    desalWater.toFixed(0);
-
-  demandValue.textContent =
-    demandWater.toFixed(0);
-
-  recycleValue.textContent =
-    recycleWater.toFixed(0);
-
-  // =========================
-  // ENERGY
-  // =========================
+  desalValue.textContent = desalWater.toFixed(0);
+  demandValue.textContent = demandWater.toFixed(0);
+  recycleValue.textContent = recycleWater.toFixed(0);
 
   const totalEnergy =
-
-    (desalWater *
-
-      selectedData.desalination.energy_kwh_m3)
-
-    +
-
-    (demandWater *
-
-      selectedData.demand_reduction.energy_kwh_m3)
-
-    +
-
-    (recycleWater *
-
-      selectedData.water_recycling.energy_kwh_m3);
-
-  // =========================
-  // CARBON
-  // =========================
+    (desalWater * selectedData.desalination.energy_kwh_m3) +
+    (demandWater * selectedData.demand_reduction.energy_kwh_m3) +
+    (recycleWater * selectedData.water_recycling.energy_kwh_m3);
 
   const totalCarbon =
-
-    (desalWater *
-
-      selectedData.desalination.carbon_kg_m3)
-
-    +
-
-    (demandWater *
-
-      selectedData.demand_reduction.carbon_kg_m3)
-
-    +
-
-    (recycleWater *
-
-      selectedData.water_recycling.carbon_kg_m3);
-
-  // =========================
-  // COST
-  // =========================
+    (desalWater * selectedData.desalination.carbon_kg_m3) +
+    (demandWater * selectedData.demand_reduction.carbon_kg_m3) +
+    (recycleWater * selectedData.water_recycling.carbon_kg_m3);
 
   const totalCost =
+    (desalWater * selectedData.desalination.cost_inr_m3) +
+    (demandWater * selectedData.demand_reduction.cost_inr_m3) +
+    (recycleWater * selectedData.water_recycling.cost_inr_m3);
 
-    (desalWater *
-
-      selectedData.desalination.cost_inr_m3)
-
-    +
-
-    (demandWater *
-
-      selectedData.demand_reduction.cost_inr_m3)
-
-    +
-
-    (recycleWater *
-
-      selectedData.water_recycling.cost_inr_m3);
-
-  // =========================
-  // DISPLAY RESULTS
-  // =========================
-
-  energyResult.textContent =
-
-    `${totalEnergy.toFixed(2)} kWh/day`;
-
-  carbonResult.textContent =
-
-    `${totalCarbon.toFixed(2)} kgCO₂/day`;
-
-  costResult.textContent =
-
-    `₹${totalCost.toFixed(2)}/day`;
-
-  // =========================
-  // FEASIBILITY CHECK
-  // =========================
+  energyResult.textContent = `${totalEnergy.toFixed(2)} kWh/day`;
+  carbonResult.textContent = `${totalCarbon.toFixed(2)} kgCO₂/day`;
+  costResult.textContent = `₹${totalCost.toFixed(2)}/day`;
 
   if (totalPercent === 100) {
-
-    feasibilityResult.textContent =
-      "✅ Feasible Mix";
-
-    feasibilityResult.style.color =
-      "#2e8b57";
-
+    feasibilityResult.textContent = "✅ Feasible Mix";
+    feasibilityResult.style.color = "#2e8b57";
   }
 
   else if (totalPercent < 100) {
-
-    feasibilityResult.textContent =
-
-      `❌ ${100 - totalPercent}% Short`;
-
-    feasibilityResult.style.color =
-      "#d9534f";
-
+    feasibilityResult.textContent = `❌ ${100 - totalPercent}% Short`;
+    feasibilityResult.style.color = "#d9534f";
   }
 
   else {
-
-    feasibilityResult.textContent =
-
-      `⚠ ${totalPercent - 100}% Excess`;
-
-    feasibilityResult.style.color =
-      "#ff9800";
-
+    feasibilityResult.textContent = `⚠ ${totalPercent - 100}% Excess`;
+    feasibilityResult.style.color = "#ff9800";
   }
 
-// =========================
-// SAVE DATA FOR CHART PAGE
-// =========================
+  waterChart.data.datasets[0].data = [desalWater];
+  waterChart.data.datasets[1].data = [demandWater];
+  waterChart.data.datasets[2].data = [recycleWater];
 
-localStorage.setItem(
-  "waterData",
+  waterChart.update();
 
-  JSON.stringify({
+  localStorage.setItem(
+    "waterData",
+    JSON.stringify({
+      target: target,
 
-    target: target,
+      desalPercent: desalPercentValue,
+      demandPercent: demandPercentValue,
+      recyclePercent: recyclePercentValue,
 
-    desalPercent: desalPercentValue,
-    demandPercent: demandPercentValue,
-    recyclePercent: recyclePercentValue,
+      desalWater: desalWater,
+      demandWater: demandWater,
+      recycleWater: recycleWater,
 
-    desalWater: desalWater,
-    demandWater: demandWater,
-    recycleWater: recycleWater,
-
-    totalEnergy: totalEnergy,
-    totalCarbon: totalCarbon,
-    totalCost: totalCost
-
-  })
-
-);
+      totalEnergy: totalEnergy,
+      totalCarbon: totalCarbon,
+      totalCost: totalCost
+    })
+  );
 }
 
-// =========================
-// EVENT LISTENERS
-// =========================
-
-targetInput.addEventListener(
-  "input",
-  updateCalculations
-);
-
-desalSlider.addEventListener(
-  "input",
-  updateCalculations
-);
-
-demandSlider.addEventListener(
-  "input",
-  updateCalculations
-);
-
-recycleSlider.addEventListener(
-  "input",
-  updateCalculations
-);
+targetInput.addEventListener("input", updateCalculations);
+desalSlider.addEventListener("input", updateCalculations);
+demandSlider.addEventListener("input", updateCalculations);
+recycleSlider.addEventListener("input", updateCalculations);
 
 function loadSavedCalculatorValues() {
   const savedData = JSON.parse(localStorage.getItem("waterData"));

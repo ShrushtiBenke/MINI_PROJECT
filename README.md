@@ -114,10 +114,6 @@ project-folder/
 ├── calculator.css
 ├── calculator.js
 │
-├── chart.html
-├── chart.css
-├── chart.js
-│
 ├── recommendation.html
 ├── recommendation.css
 ├── recommendation.js

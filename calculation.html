@@ -47,8 +47,6 @@
 
         </div>
 
-        <!-- DESALINATION -->
-
         <div class="card">
 
           <div class="slider-header">
@@ -71,8 +69,6 @@
 
         </div>
 
-        <!-- DEMAND REDUCTION -->
-
         <div class="card">
 
           <div class="slider-header">
@@ -94,8 +90,6 @@
           </p>
 
         </div>
-
-        <!-- RECYCLING -->
 
         <div class="card">
 
@@ -125,51 +119,65 @@
 
       <div class="results-panel">
 
-        <div class="result-card">
+        <div class="chart-card">
 
-          <h3>Total Energy Usage</h3>
+          <h2>Live Water Mix Chart</h2>
 
-          <p id="energyResult">
-            0 kWh/day
+          <p>
+            This chart updates instantly when you change the water target or solution percentage.
           </p>
+
+          <div class="chart-box">
+            <canvas id="waterChart"></canvas>
+          </div>
 
         </div>
 
-        <div class="result-card">
+        <div class="results-grid">
 
-          <h3>Total Carbon Footprint</h3>
+          <div class="result-card">
 
-          <p id="carbonResult">
-            0 kgCO₂/day
-          </p>
+            <h3>Total Energy Usage</h3>
 
-        </div>
+            <p id="energyResult">
+              0 kWh/day
+            </p>
 
-        <div class="result-card">
+          </div>
 
-          <h3>Total Financial Cost</h3>
+          <div class="result-card">
 
-          <p id="costResult">
-            ₹0/day
-          </p>
+            <h3>Total Carbon Footprint</h3>
 
-        </div>
+            <p id="carbonResult">
+              0 kgCO₂/day
+            </p>
 
-        <div class="result-card feasibility-card">
+          </div>
 
-          <h3>Feasibility Status</h3>
+          <div class="result-card">
 
-          <p id="feasibilityResult">
-            Checking...
-          </p>
+            <h3>Total Financial Cost</h3>
+
+            <p id="costResult">
+              ₹0/day
+            </p>
+
+          </div>
+
+          <div class="result-card feasibility-card">
+
+            <h3>Feasibility Status</h3>
+
+            <p id="feasibilityResult">
+              Checking...
+            </p>
+
+          </div>
 
         </div>
 
         <div class="navigation-buttons">
-
-          <a href="chart.html" class="nav-btn">
-            View Charts
-          </a>
 
           <a href="recommendation.html" class="nav-btn">
             Recommendations
@@ -183,6 +191,7 @@
 
   </section>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="calculation.js"></script>
 
 </body>
